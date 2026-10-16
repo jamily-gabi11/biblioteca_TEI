@@ -35,10 +35,12 @@ class Biblioteca {
     { 'titulo': 'Cadastrar livro', 'permissao': 'bibliotecario', 'metodo': cadastrarLivro },
     { 'titulo': 'Listar livros', 'permissao': null, 'metodo': listarLivros },
     { 'titulo': 'Registrar emprestimo ', 'permissao': 'bibliotecario', 'metodo': registrarEmprestimo },
+    { 'titulo': 'Listar emprestimos', 'permissao': null, 'metodo': listarEmprestimos },
     { 'titulo': 'Registrar devolução', 'permissao': 'bibliotecario', 'metodo': registrarDevolucao },
   ];
 
   static final List<Livro> livros = [];
+  static final List<Emprestimo> emprestimos = [];
 
 
 static void cadastrarLivro() {
@@ -70,26 +72,41 @@ static void cadastrarLivro() {
   }
 
   static void registrarEmprestimo() {
-    /*print('Digite o título do livro que deseja emprestar:');
+    print('Digite o título do livro que deseja emprestar:');
     String? titulo = stdin.readLineSync();
+    Livro? livro = livros.firstWhere((l) => l.titulo == titulo, orElse: () => Livro('', '', false));
     if ( titulo!= null && titulo.isNotEmpty) {
-      emprestimos.add(livro);
+      emprestimos.add(Emprestimo(livro, DateTime.now(), DateTime.now().add(Duration(days: 15))));
       print('Livro emprestado.');
     } else {
       print('Nenhum livro foi emprestado.');
-    }*/
+    }
   }
 
+
+  static void listarEmprestimos() {
+    if (emprestimos.isEmpty) {
+      print('Nenhum empréstimo registrado.');
+    } else {
+      print('Empréstimos registrados:');
+      for (int i=0; i<emprestimos.length; i++) {
+        print('- $i: ${emprestimos[i].livro.titulo}, Data do empréstimo: ${emprestimos[i].dataEmprestimo}, Data da devolução: ${emprestimos[i].dataDevolucao}');
+      }
+    }
+  }
+     
   static void registrarDevolucao() {
     /*print('Digite o título do livro que deseja devolver:');
     String? input = stdin.readLineSync();
     if (input != null && input.isNotEmpty) {
-      livros.add(input);
-      print('Livro devolvido.');
-    } else {
-      print('Nenhum livro foi devolvido.');
-    }*/
-  }
+      Livro? livro = livros.firstWhere((l) => l.titulo == input, orElse: () => Livro('', '', false));
+      if (livro != null) {
+        emprestimos.removeWhere((e) => e.livro == livro);
+        print('Livro devolvido.');
+      } else {
+        print('Livro não encontrado.');*/
+      
+  
 
   static void excluir() {
     print('Digite o título do livro que deseja excluir:');
