@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:exemplo/exemplo.dart';
+import 'package:biblioteca/biblioteca.dart';
 
 const String version = '0.0.1';
 
@@ -14,10 +15,11 @@ void main(List<String> arguments) {
     'nome': 'Beltrano',
     'permissoes': ['admin'],
   };
+  Map<String, dynamic> bibliotecario = {'nome': 'Joao', 'permissoes': ['bibliotecario']};
 
   // Usuário logado
   // TODO: Você deve adaptar isso para usar a classe Usuario real.
-  var usuario = usuario2;
+  var usuario = bibliotecario;
 
   opcoes += Exemplo.menu;
   opcoes += Biblioteca.menu;

@@ -8,13 +8,16 @@ import 'package:usuarios/usuarios.dart';
 class UsuarioBiblioteca {
   Usuario usuario;
   List<Emprestimo> livrosEmprestados = [];
+  
   UsuarioBiblioteca(this.usuario);
 }
 
 class Livro{
   String titulo;
   String autor;
-  Boolean disponivel;
+  bool disponivel;
+
+  Livro (this.titulo, this.autor, this.disponivel);
 }
 
 class Emprestimo {
@@ -24,8 +27,6 @@ class Emprestimo {
 
   Emprestimo(this.livro, this.dataEmprestimo, this.dataDevolucao);
 }
-
-Usuario bibliotecario = Usuario('joao', ['bibliotecario']);
 
 class Biblioteca {
   /// Menu de opções do módulo exemplo.
@@ -37,19 +38,19 @@ class Biblioteca {
     { 'titulo': 'Registrar devolução', 'permissao': 'bibliotecario', 'metodo': registrarDevolucao },
   ];
 
-  static final List<String> livros = [];
+  static final List<Livro> livros = [];
 
 
 static void cadastrarLivro() {
     print('Digite o titulo do livro: ');
-    String? nome = stdin.readLineSync();
+    String? titulo = stdin.readLineSync();
     print('Digite o autor do livro: ');
     String? autor = stdin.readLineSync();
-    print('Digite se o livro está disponível: ');
+    print('Digite se o livro está disponível (S/N): ');
     String? disponivel = stdin.readLineSync();
     
-    if (nome != null && nome.isNotEmpty && autor != null && autor.isNotEmpty && disponivel != null && disponivel.isNotEmpty) {
-      var livro = Livro(nome, autor, disponivel = true);
+    if (titulo != null && titulo.isNotEmpty && autor != null && autor.isNotEmpty && disponivel != null && disponivel.isNotEmpty) {
+      var livro = Livro(titulo, autor, disponivel[0].toLowerCase() == "s");
       livros.add(livro);
       print('Livro cadastrado.');
     } else {
@@ -61,33 +62,33 @@ static void cadastrarLivro() {
     if (livros.isEmpty) {
       print('Nenhum livro cadastrado.');
     } else {
-      print('Informações cadastradas:');
-      for (int i=0; i<informacoes.length; i++) {
-        print('- $i: ${informacoes[i]}');
+      print('livros cadastrados:');
+      for (int i=0; i<livros.length; i++) {
+        print('- $i: ${livros[i].titulo},''- $i: ${livros[i].autor},');
       }
     }
   }
 
   static void registrarEmprestimo() {
-    print('Digite o título do livro que deseja emprestar:');
-    String? input = stdin.readLineSync();
-    if (input != null && input.isNotEmpty) {
-      livros.add(input);
+    /*print('Digite o título do livro que deseja emprestar:');
+    String? titulo = stdin.readLineSync();
+    if ( titulo!= null && titulo.isNotEmpty) {
+      emprestimos.add(livro);
       print('Livro emprestado.');
     } else {
       print('Nenhum livro foi emprestado.');
-    }
+    }*/
   }
 
   static void registrarDevolucao() {
-    print('Digite o título do livro que deseja devolver:');
+    /*print('Digite o título do livro que deseja devolver:');
     String? input = stdin.readLineSync();
     if (input != null && input.isNotEmpty) {
       livros.add(input);
       print('Livro devolvido.');
     } else {
       print('Nenhum livro foi devolvido.');
-    }
+    }*/
   }
 
   static void excluir() {
