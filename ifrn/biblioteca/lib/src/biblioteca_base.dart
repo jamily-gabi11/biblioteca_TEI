@@ -28,6 +28,13 @@ class Emprestimo {
   Emprestimo(this.livro, this.dataEmprestimo, this.dataDevolucao);
 }
 
+class Devolucao {
+  Livro livro;
+  DateTime dataDevolucao;
+
+  Devolucao(this.livro, this.dataDevolucao);
+}
+
 class Biblioteca {
   /// Menu de opções do módulo exemplo.
   /// TODO: Adapte ao seu módulo, mas mantenha o nome da propriedade como `menu` para que o código do binário funcione corretamente.
@@ -37,10 +44,13 @@ class Biblioteca {
     { 'titulo': 'Registrar emprestimo ', 'permissao': 'bibliotecario', 'metodo': registrarEmprestimo },
     { 'titulo': 'Listar emprestimos', 'permissao': null, 'metodo': listarEmprestimos },
     { 'titulo': 'Registrar devolução', 'permissao': 'bibliotecario', 'metodo': registrarDevolucao },
+    { 'titulo': 'Listar devoluções', 'permissao': null, 'metodo': listarDevolucoes },
+    { 'titulo': 'Excluir livro', 'permissao': 'bibliotecario', 'metodo': excluir },
   ];
 
   static final List<Livro> livros = [];
   static final List<Emprestimo> emprestimos = [];
+  static final List<Devolucao> devolucoes = [];
 
 
 static void cadastrarLivro() {
@@ -96,27 +106,38 @@ static void cadastrarLivro() {
   }
      
   static void registrarDevolucao() {
-    /*print('Digite o título do livro que deseja devolver:');
-    String? input = stdin.readLineSync();
-    if (input != null && input.isNotEmpty) {
-      Livro? livro = livros.firstWhere((l) => l.titulo == input, orElse: () => Livro('', '', false));
-      if (livro != null) {
-        emprestimos.removeWhere((e) => e.livro == livro);
-        print('Livro devolvido.');
-      } else {
-        print('Livro não encontrado.');*/
-      
-  
+    print('Digite o título do livro que deseja devolver:');
+    String? titulo = stdin.readLineSync();
+    Livro? livro = livros.firstWhere((l) => l.titulo == titulo, orElse: () => Livro('', '', false));
+    if ( titulo!= null && titulo.isNotEmpty) {
+      emprestimos.removeWhere((e) => e.livro == livro);
+      devolucoes.add(Devolucao(livro, DateTime.now()));
+      print('Livro devolvido.');
+    } else {
+      print('Nenhum livro foi devolvido.');
+    }
+  }
+
+  static void listarDevolucoes() {
+    if (devolucoes.isEmpty) {
+      print('Nenhuma devolução registrada.');
+    } else {
+      print('Devoluções registradas:');
+      for (int i=0; i<devolucoes.length; i++) {
+        print('- $i: ${devolucoes[i].livro.titulo}, Data da devolução: ${devolucoes[i].dataDevolucao}');
+      }
+    }
+  }
 
   static void excluir() {
     print('Digite o título do livro que deseja excluir:');
-    String? input = stdin.readLineSync() ?? '';
-    int? index = int.tryParse(input);
-    if (index != null && index >= 0 && index < livros.length) {
-      livros.removeAt(index);
-      print('Livro excluído com sucesso.');
+    String? titulo = stdin.readLineSync();
+    Livro? livro = livros.firstWhere((l) => l.titulo == titulo, orElse: () => Livro('', '', false));
+    if ( titulo!= null && titulo.isNotEmpty) {
+      livros.remove(livro);
+      print('Livro excluído.');
     } else {
-      print('Livro não encontrado.');
+      print('Nenhum livro foi excluído.');
     }
   }
 }
